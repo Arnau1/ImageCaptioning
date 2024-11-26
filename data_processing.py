@@ -76,7 +76,7 @@ def look_images(dataframe, folder, column='Image_Name', extension='.jpg'):
 
 
 
-def extract_data(source_folder = '/fhome/vlia08/ImageCaptioning/DataRaw/, Title = True, Ingredients = False, Instructions = False, IMG_SIZE = 255):
+def extract_data(source_folder = '/fhome/vlia08/ImageCaptioning/DataRaw/', Title = True, Ingredients = False, Instructions = False, IMG_SIZE = 255):
     """
     Extracts recipe data (title, ingredients, instructions, images) from the given source folder.
 

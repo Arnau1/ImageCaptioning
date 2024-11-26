@@ -1,0 +1,4 @@
+vector: img_name (input) -> title/instructions/ingredients
+function to load an img given an img_name and prepares it to be passed through an llm
+For the text, clean the weird characters, check lenght > 0
+Refinar query? (what is the title?...)

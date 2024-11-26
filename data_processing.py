@@ -3,6 +3,9 @@ import unicodedata
 import numpy as np
 import os
 from PIL import Image
+import pandas as pd
+import cv2
+from tqdm import tqdm
 
 def look_char(dataframe, column):
     '''
@@ -30,13 +33,15 @@ def look_char(dataframe, column):
         print(f'Appearances: {len(titles_containing_char)}')    
         print()
 
+
+
 def look_images(dataframe, folder, column='Image_Name', extension='.jpg'):
     # Lists to store widths and heights
     widths = []
     heights = []
 
-    # Iterate over the image names in the DataFrame
-    for image_name in dataframe[column]:
+    # Iterate over the image names in the DataFrame with a progress bar
+    for image_name in tqdm(dataframe[column], desc="Processing Images"):
         image_path = os.path.join(folder, image_name + extension)
         try:
             with Image.open(image_path) as img:
@@ -52,18 +57,20 @@ def look_images(dataframe, folder, column='Image_Name', extension='.jpg'):
             "max": max(widths),
             "min": min(widths),
             "mean": np.mean(widths),
+            "std": np.std(widths),
         }
         height_stats = {
             "max": max(heights),
             "min": min(heights),
             "mean": np.mean(heights),
+            "std": np.std(heights),
         }
 
         # Print results
         print("Width Stats:")
-        print(f"  Max: {width_stats['max']}, Min: {width_stats['min']}, Mean: {width_stats['mean']:.2f}")
+        print(f"  Max: {width_stats['max']}, Min: {width_stats['min']}, Mean: {width_stats['mean']:.2f}, Standard Deviation: {width_stats['std']:.2f}")
         print("Height Stats:")
-        print(f"  Max: {height_stats['max']}, Min: {height_stats['min']}, Mean: {height_stats['mean']:.2f}")
+        print(f"  Max: {height_stats['max']}, Min: {height_stats['min']}, Mean: {height_stats['mean']:.2f}, Standard Deviation: {height_stats['std']:.2f}")
     else:
         print("No valid image dimensions were found.")
 
@@ -94,7 +101,7 @@ def extract_data(source_folder, Title = True, Ingredients = False, Instructions 
     # Iterate over each row (recipe) in the recipes DataFrame
     for _, row in recipes.iterrows():
         # Initialize an empty dictionary to store the data for this recipe
-        dictionary = dict{}
+        dictionary = {}
 
         # If the Title flag is True, include the recipe title
         if Title:
@@ -115,7 +122,7 @@ def extract_data(source_folder, Title = True, Ingredients = False, Instructions 
         image_file = row["Image_Name"] + '.jpg'  # Assumes images are named in the CSV
 
         # Construct the full path to the image file
-        image_path = os.path.join(IMAGES_DIR, image_file)
+        image_path = os.path.join(source_folder, image_file)
 
         try:
             # Load and preprocess image

@@ -4,16 +4,16 @@ from transformers import AutoProcessor, AutoModelForVision2Seq, BitsAndBytesConf
 from transformers.image_utils import load_image
 import argparse
 import os
-import json 
+import json
 
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
 argparser = argparse.ArgumentParser()
-argparser.add_argument("--image_path", type=str, required=True)
+argparser.add_argument("--images_path", type=str, required=True)
 
 class Inference:
-    def __init__(self, image_path):
-        self.image_path = image_path
+    def __init__(self, images_path):
+        self.images_path = images_path
         self.processor = AutoProcessor.from_pretrained("HuggingFaceTB/SmolVLM-Base")
         quantization_config = BitsAndBytesConfig(load_in_8bit=True)
         self.model = AutoModelForVision2Seq.from_pretrained(
@@ -21,12 +21,12 @@ class Inference:
             quantization_config=quantization_config,
         )
 
-    def load_image(self):
-        image = load_image(self.image_path)
+    def load_image(self, image_path):
+        image = load_image(image_path)
         return image
 
-    def generate_description(self):
-        image = self.load_image()
+    def generate_description(self, image_path):
+        image = self.load_image(image_path)
         messages = [
             {
                 "role": "user",
@@ -45,14 +45,23 @@ class Inference:
             skip_special_tokens=True,
         )
         # return the generated text and the image name
-        return (generated_texts[0], os.path.basename(self.image_path))
+        return (generated_texts[0], os.path.basename(image_path))
     
-    def save_to_json(self, description):
-        with open('description.json', 'w') as f:
-            json.dump(description, f)
+    def save_to_json(self, descriptions):
+        with open('descriptions.json', 'w') as f:
+            json.dump(descriptions, f)
+
+    def process_images(self):
+        descriptions = []
+        for image_name in os.listdir(self.images_path):
+            image_path = os.path.join(self.images_path, image_name)
+            if os.path.isfile(image_path):
+                description = self.generate_description(image_path)
+                descriptions.append(description)
+        self.save_to_json(descriptions)
 
 if __name__ == "__main__":
     args = argparser.parse_args()
-    inference = Inference(args.image_path)
-    description = inference.generate_description()
-    inference.save_to_json(description)
+    inference = Inference(args.images_path)
+    inference.process_images()
+

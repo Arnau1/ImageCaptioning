@@ -6,6 +6,8 @@ from PIL import Image
 import pandas as pd
 import cv2
 from tqdm import tqdm
+import pickle
+import random
 
 def look_char(dataframe, column):
     '''
@@ -73,6 +75,64 @@ def look_images(dataframe, folder, column='Image_Name', extension='.jpg'):
         print(f"  Max: {height_stats['max']}, Min: {height_stats['min']}, Mean: {height_stats['mean']:.2f}, Standard Deviation: {height_stats['std']:.2f}")
     else:
         print("No valid image dimensions were found.")
+
+
+
+def train_val_test_split(data, train_ratio=0.8, val_ratio=0.1, test_ratio=0.1, 
+                         seed=None, save=False, name='set', show=True):
+    """
+    Splits a dictionary into train, validation, and test sets.
+
+    Args:
+        data (dict): The dictionary to split.
+        train_ratio (float): Proportion of data for the training set.
+        val_ratio (float): Proportion of data for the validation set.
+        test_ratio (float): Proportion of data for the test set.
+        seed (int): Random seed for reproducibility.
+
+    Returns:
+        tuple: Three dictionaries (train_dict, val_dict, test_dict).
+    """
+    if seed is not None:
+        random.seed(seed)
+    
+    # Ensure the ratios sum to 1
+    assert abs(train_ratio + val_ratio + test_ratio - 1.0) < 1e-6, "Ratios must sum to 1."
+    
+    # Shuffle the keys
+    keys = list(data.keys())
+    random.shuffle(keys)
+    
+    # Calculate split indices
+    total_items = len(keys)
+    train_end = int(total_items * train_ratio)
+    val_end = train_end + int(total_items * val_ratio)
+    
+    # Split keys
+    train_keys = keys[:train_end]
+    val_keys = keys[train_end:val_end]
+    test_keys = keys[val_end:]
+    
+    # Create the dictionaries
+    train_dict = {key: data[key] for key in train_keys}
+    val_dict = {key: data[key] for key in val_keys}
+    test_dict = {key: data[key] for key in test_keys}
+
+    if save: # Store dictionaries as pickle        
+        with open(f'train_{name}.pkl', 'wb') as f:
+            pickle.dump(train_dict, f)
+        with open(f'validation_{name}.pkl', 'wb') as f:
+            pickle.dump(val_dict, f)
+        with open(f'test_{name}.pkl', 'wb') as f:
+            pickle.dump(test_dict, f)
+    
+    if show:
+        print("Original:", len(data.keys()))
+        print("Train:", len(train_dict.keys()))
+        print("Validation:", len(val_dict.keys()))
+        print("Test:", len(test_dict.keys()))
+    
+    return train_dict, val_dict, test_dict
 
 
 

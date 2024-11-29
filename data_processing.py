@@ -76,7 +76,7 @@ def look_images(dataframe, folder, column='Image_Name', extension='.jpg'):
 
 
 
-def extract_data(source_folder, Title = True, Ingredients = False, Instructions = False, IMG_SIZE = 255):
+def extract_data(source_folder = '/fhome/vlia08/ImageCaptioning/DataRaw/', Title = True, Ingredients = False, Instructions = False, IMG_SIZE = 255):
     """
     Extracts recipe data (title, ingredients, instructions, images) from the given source folder.
 
@@ -90,10 +90,7 @@ def extract_data(source_folder, Title = True, Ingredients = False, Instructions 
     - data (list): A list of dictionaries where each dictionary represents a recipe with the specified data fields.
     """
     # Load the recipes metadata CSV file into a DataFrame
-    recipes = pd.read_csv(os.path.join(source_folder, "recipes.csv")) # Adjust if it's JSON or named differently
-
-    # Define the path to the images directory
-    images = os.path.join(source_folder, "images")  # Directory with images
+    recipes = pd.read_csv(os.path.join(source_folder, "Food\ Ingredients\ and\ Recipe\ Dataset\ with\ Image\ Name\ Mapping.csv"))
 
     # Initialize an empty list to store processed data
     data = []
@@ -124,19 +121,8 @@ def extract_data(source_folder, Title = True, Ingredients = False, Instructions 
         # Construct the full path to the image file
         image_path = os.path.join(source_folder, image_file)
 
-        try:
-            # Load and preprocess image
-            img = cv2.imread(image_path)
-            if img is None:
-                print(f"Image not found: {image_file}")
-                continue
-             # Resize the image to the predefined size (IMG_SIZE)
-            img = cv2.resize(img, IMG_SIZE)
-            img = img / 255.0  # Normalize pixel values
-
-            # Append title and image to data list
-            dictionary['image'] = img
-        except Exception as e:
-            print(f"Error processing image {image_file}: {e}")
+        # Include the image path in the dictionary
+        dictionary['image_path'] = image_path
+        
         data.append(dictionary)
     return data

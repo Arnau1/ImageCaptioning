@@ -15,11 +15,11 @@ class Inference:
     def __init__(self, images_path):
         self.images_path = images_path
         self.processor = AutoProcessor.from_pretrained("HuggingFaceTB/SmolVLM-Base")
-        quantization_config = BitsAndBytesConfig(load_in_8bit=True)
+        quantization_config = BitsAndBytesConfig(load_in_4bit=True)
         self.model = AutoModelForVision2Seq.from_pretrained(
             "HuggingFaceTB/SmolVLM-Instruct",
             quantization_config=quantization_config,
-        ).to(DEVICE)
+        )
 
     def load_image(self, image_path):
         image = load_image(image_path)

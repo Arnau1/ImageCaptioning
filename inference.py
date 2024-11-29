@@ -19,7 +19,7 @@ class Inference:
         self.model = AutoModelForVision2Seq.from_pretrained(
             "HuggingFaceTB/SmolVLM-Instruct",
             quantization_config=quantization_config,
-        )
+        ).to(DEVICE)
 
     def load_image(self, image_path):
         image = load_image(image_path)

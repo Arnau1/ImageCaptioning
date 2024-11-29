@@ -10,10 +10,9 @@ DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
 argparser = argparse.ArgumentParser()
 argparser.add_argument("--image_path", type=str, required=True)
-argparser.add_argument("--ground_truth", type=str, required=False)
 
 class Inference:
-    def __init__(self, image_path, ground_truth = None):
+    def __init__(self, image_path):
         self.image_path = image_path
         self.processor = AutoProcessor.from_pretrained("HuggingFaceTB/SmolVLM-Base")
         quantization_config = BitsAndBytesConfig(load_in_8bit=True)
@@ -45,7 +44,8 @@ class Inference:
             generated_ids,
             skip_special_tokens=True,
         )
-        return generated_texts[0]
+        # return the generated text and the image name
+        return (generated_texts[0], os.path.basename(self.image_path))
     
     def save_to_json(self, description):
         with open('description.json', 'w') as f:
@@ -53,7 +53,6 @@ class Inference:
 
 if __name__ == "__main__":
     args = argparser.parse_args()
-    inference = Inference(args.image_path, args.ground_truth)
+    inference = Inference(args.image_path)
     description = inference.generate_description()
     inference.save_to_json(description)
-    print(description)

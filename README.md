@@ -2,8 +2,8 @@
 
 Dataset link: https://www.kaggle.com/datasets/pes12017000148/food-ingredients-and-recipe-dataset-with-images
 
-Content
 This dataset was created by scraping from the Epicurious Website. Epicurious is an American digital brand that focuses on food and cooking-related topics. The scrapped content consists of 13,582 recipes that have:
+
     Title: Represents the Title of the Food Dish.
     Ingredients: Contains the ingredients as they were scraped from the website.
     Instructions: Has the recipe instructions to be followed to recreate the dish.

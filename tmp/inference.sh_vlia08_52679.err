@@ -1,2 +1,0 @@
-Some kwargs in processor config are unused and will not have any effect: image_seq_len. 
-`low_cpu_mem_usage` was None, now default to True since model is quantized.

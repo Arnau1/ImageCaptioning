@@ -1,2 +1,0 @@
-usage: inference.py [-h] --images_path IMAGES_PATH
-inference.py: error: the following arguments are required: --images_path

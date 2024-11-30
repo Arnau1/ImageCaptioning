@@ -1,0 +1,41 @@
+/export/fhome/vlia08/MyVirtualEnv/lib/python3.8/site-packages/bitsandbytes/cuda_setup/main.py:167: UserWarning: Welcome to bitsandbytes. For bug reports, please run
+
+python -m bitsandbytes
+
+
+  warn(msg)
+/export/fhome/vlia08/MyVirtualEnv/lib/python3.8/site-packages/bitsandbytes/cuda_setup/main.py:167: UserWarning: Found duplicate ['libcudart.so', 'libcudart.so.11.0', 'libcudart.so.12.0'] files: {PosixPath('/fhome/vlia08/miniconda3/envs/backup/lib/libcudart.so'), PosixPath('/fhome/vlia08/miniconda3/envs/backup/lib/libcudart.so.11.0')}.. We select the PyTorch default libcudart.so, which is {torch.version.cuda},but this might missmatch with the CUDA version that is needed for bitsandbytes.To override this behavior set the BNB_CUDA_VERSION=<version string, e.g. 122> environmental variableFor example, if you want to use the CUDA version 122BNB_CUDA_VERSION=122 python ...OR set the environmental variable in your .bashrc: export BNB_CUDA_VERSION=122In the case of a manual override, make sure you set the LD_LIBRARY_PATH, e.g.export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda-11.2
+  warn(msg)
+/export/fhome/vlia08/MyVirtualEnv/lib/python3.8/site-packages/bitsandbytes/cuda_setup/main.py:167: UserWarning: /fhome/vlia08/miniconda3/envs/backup did not contain ['libcudart.so', 'libcudart.so.11.0', 'libcudart.so.12.0'] as expected! Searching further paths...
+  warn(msg)
+/export/fhome/vlia08/MyVirtualEnv/lib/python3.8/site-packages/bitsandbytes/cuda_setup/main.py:167: UserWarning: /usr/local/cuda/lib64/libcudart.so:/usr/local/cuda/lib64/libcudart.so:/path/to/cuda/lib64:/path/to/cuda/lib64: did not contain ['libcudart.so', 'libcudart.so.11.0', 'libcudart.so.12.0'] as expected! Searching further paths...
+  warn(msg)
+/export/fhome/vlia08/MyVirtualEnv/lib/python3.8/site-packages/bitsandbytes/cuda_setup/main.py:167: UserWarning: WARNING: Compute capability < 7.5 detected! Only slow 8-bit matmul is supported for your GPU!                     If you run into issues with 8-bit matmul, you can try 4-bit quantization: https://huggingface.co/blog/4bit-transformers-bitsandbytes
+  warn(msg)
+Traceback (most recent call last):
+  File "/usr/lib/python3.8/runpy.py", line 185, in _run_module_as_main
+    mod_name, mod_spec, code = _get_module_details(mod_name, _Error)
+  File "/usr/lib/python3.8/runpy.py", line 144, in _get_module_details
+    return _get_module_details(pkg_main_name, error)
+  File "/usr/lib/python3.8/runpy.py", line 111, in _get_module_details
+    __import__(pkg_name)
+  File "/export/fhome/vlia08/MyVirtualEnv/lib/python3.8/site-packages/bitsandbytes/__init__.py", line 6, in <module>
+    from . import cuda_setup, utils, research
+  File "/export/fhome/vlia08/MyVirtualEnv/lib/python3.8/site-packages/bitsandbytes/research/__init__.py", line 1, in <module>
+    from . import nn
+  File "/export/fhome/vlia08/MyVirtualEnv/lib/python3.8/site-packages/bitsandbytes/research/nn/__init__.py", line 1, in <module>
+    from .modules import LinearFP8Mixed, LinearFP8Global
+  File "/export/fhome/vlia08/MyVirtualEnv/lib/python3.8/site-packages/bitsandbytes/research/nn/modules.py", line 8, in <module>
+    from bitsandbytes.optim import GlobalOptimManager
+  File "/export/fhome/vlia08/MyVirtualEnv/lib/python3.8/site-packages/bitsandbytes/optim/__init__.py", line 6, in <module>
+    from bitsandbytes.cextension import COMPILED_WITH_CUDA
+  File "/export/fhome/vlia08/MyVirtualEnv/lib/python3.8/site-packages/bitsandbytes/cextension.py", line 20, in <module>
+    raise RuntimeError('''
+RuntimeError: 
+        CUDA Setup failed despite GPU being available. Please run the following command to get more information:
+
+        python -m bitsandbytes
+
+        Inspect the output of the command and see if you can locate CUDA libraries. You might need to add them
+        to your LD_LIBRARY_PATH. If you suspect a bug, please take the information from python -m bitsandbytes
+        and open an issue at: https://github.com/TimDettmers/bitsandbytes/issues

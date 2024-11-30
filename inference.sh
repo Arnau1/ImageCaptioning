@@ -11,7 +11,7 @@
 
 
 # Run the Python script
-python /fhome/vlia08/ImageCaptioning/inference.py --images_path /fhome/vlia08/caca/DataRaw/food_images
+python -m bitsandbytes
 
 
 

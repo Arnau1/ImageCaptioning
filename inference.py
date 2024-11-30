@@ -6,15 +6,23 @@ import argparse
 import os
 import json
 from tqdm import tqdm
+import pickle
 
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
 argparser = argparse.ArgumentParser()
 argparser.add_argument("--images_path", type=str, required=True)
+argparser.add_argument("--pickle_path", type=str, required=True)
 
 class Inference:
-    def __init__(self, images_path):
+    def __init__(self, images_path, pickle_path):
         self.images_path = images_path
+        self.pickle_path = pickle_path
+        # Load the pkl file
+        with open('../Datasets/test_titles.pkl', 'rb') as f:
+            # a dictionary with keys 'image_name' and key 'title'
+            self.titles = pickle.load(f)
+
         self.processor = AutoProcessor.from_pretrained("HuggingFaceTB/SmolVLM-Base")
         quantization_config = BitsAndBytesConfig(load_in_8bit=True)
         self.model = AutoModelForVision2Seq.from_pretrained(
@@ -55,6 +63,8 @@ class Inference:
     def process_images(self):
         descriptions = []
         image_names = os.listdir(self.images_path)
+        image_names = [image_name for image_name in image_names if os.path.basename(image_name) in self.titles]
+
         progress_bar = tqdm(image_names, desc="Processing Images", unit="image")
         for image_name in progress_bar:
             image_path = os.path.join(self.images_path, image_name)
@@ -65,6 +75,6 @@ class Inference:
 
 if __name__ == "__main__":
     args = argparser.parse_args()
-    inference = Inference(args.images_path)
+    inference = Inference(args.images_path, args.pickle_path)
     inference.process_images()
 

@@ -5,6 +5,7 @@ from transformers.image_utils import load_image
 import argparse
 import os
 import json
+from tqdm import tqdm
 
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
@@ -15,7 +16,7 @@ class Inference:
     def __init__(self, images_path):
         self.images_path = images_path
         self.processor = AutoProcessor.from_pretrained("HuggingFaceTB/SmolVLM-Base")
-        quantization_config = BitsAndBytesConfig(load_in_4bit=True)
+        quantization_config = BitsAndBytesConfig(load_in_8bit=True)
         self.model = AutoModelForVision2Seq.from_pretrained(
             "HuggingFaceTB/SmolVLM-Instruct",
             quantization_config=quantization_config,
@@ -53,7 +54,9 @@ class Inference:
 
     def process_images(self):
         descriptions = []
-        for image_name in os.listdir(self.images_path):
+        image_names = os.listdir(self.images_path)
+        progress_bar = tqdm(image_names, desc="Processing Images", unit="image")
+        for image_name in progress_bar:
             image_path = os.path.join(self.images_path, image_name)
             if os.path.isfile(image_path):
                 description = self.generate_description(image_path)

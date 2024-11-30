@@ -1,0 +1,17 @@
+Some kwargs in processor config are unused and will not have any effect: image_seq_len. 
+Traceback (most recent call last):
+  File "/fhome/vlia08/ImageCaptioning/inference.py", line 65, in <module>
+    inference = Inference(args.images_path)
+  File "/fhome/vlia08/ImageCaptioning/inference.py", line 18, in __init__
+    quantization_config = BitsAndBytesConfig(load_in_4bit=True)
+  File "/export/fhome/vlia08/MyVirtualEnv/lib/python3.8/site-packages/transformers/utils/quantization_config.py", line 417, in __init__
+    self.post_init()
+  File "/export/fhome/vlia08/MyVirtualEnv/lib/python3.8/site-packages/transformers/utils/quantization_config.py", line 475, in post_init
+    if self.load_in_4bit and not version.parse(importlib.metadata.version("bitsandbytes")) >= version.parse(
+  File "/usr/lib/python3.8/importlib/metadata.py", line 530, in version
+    return distribution(distribution_name).version
+  File "/usr/lib/python3.8/importlib/metadata.py", line 503, in distribution
+    return Distribution.from_name(distribution_name)
+  File "/usr/lib/python3.8/importlib/metadata.py", line 177, in from_name
+    raise PackageNotFoundError(name)
+importlib.metadata.PackageNotFoundError: bitsandbytes

@@ -1,0 +1,13 @@
+Some kwargs in processor config are unused and will not have any effect: image_seq_len. 
+Traceback (most recent call last):
+  File "/fhome/vlia08/ImageCaptioning/inference.py", line 65, in <module>
+    inference = Inference(args.images_path)
+  File "/fhome/vlia08/ImageCaptioning/inference.py", line 19, in __init__
+    self.model = AutoModelForVision2Seq.from_pretrained(
+  File "/export/fhome/vlia08/MyVirtualEnv/lib/python3.8/site-packages/transformers/models/auto/auto_factory.py", line 564, in from_pretrained
+    return model_class.from_pretrained(
+  File "/export/fhome/vlia08/MyVirtualEnv/lib/python3.8/site-packages/transformers/modeling_utils.py", line 3657, in from_pretrained
+    hf_quantizer.validate_environment(
+  File "/export/fhome/vlia08/MyVirtualEnv/lib/python3.8/site-packages/transformers/quantizers/quantizer_bnb_8bit.py", line 73, in validate_environment
+    raise ImportError(
+ImportError: Using `bitsandbytes` 8-bit quantization requires the latest version of bitsandbytes: `pip install -U bitsandbytes`

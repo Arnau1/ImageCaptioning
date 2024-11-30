@@ -20,8 +20,12 @@ def compute_metrics(predicted, label):
     bleu_metric = evaluate.load("bleu")
 
     # Compute BLEU score
+<<<<<<< HEAD
     bleu_1 = bleu_metric.compute(predictions=[predicted], references=[[label]], max_order=1)['bleu']
     bleu_2 = bleu_metric.compute(predictions=[predicted], references=[[label]], max_order=2)['bleu']
+=======
+    bleu = bleu_metric.compute(predictions=[predicted], references=[[label]])['bleu']
+>>>>>>> cbc548d14ae458e87efcbc6855d3d88082246a2d
 
     # Initialize ROUGE scorer
     rouge_scorer_instance = rouge_scorer.RougeScorer(['rouge1', 'rouge2', 'rougeL'], use_stemmer=True)
@@ -39,8 +43,12 @@ def compute_metrics(predicted, label):
 
     # Return the results
     return {
+<<<<<<< HEAD
         "BLEU-1": bleu_1,
         "BLEU-2": bleu_2,
+=======
+        "BLEU": bleu,
+>>>>>>> cbc548d14ae458e87efcbc6855d3d88082246a2d
         "ROUGE-1": rouge_scores["ROUGE-1"],
         "ROUGE-2": rouge_scores["ROUGE-2"],
         "ROUGE-L": rouge_scores["ROUGE-L"],
@@ -64,8 +72,12 @@ def evaluate_model(predictions, labels):
 
     # Initialize accumulators for metrics
     metrics_summary = {
+<<<<<<< HEAD
         "BLEU-1": [],
         "BLEU-2": [],
+=======
+        "BLEU": [],
+>>>>>>> cbc548d14ae458e87efcbc6855d3d88082246a2d
         "ROUGE-1": [],
         "ROUGE-2": [],
         "ROUGE-L": [],

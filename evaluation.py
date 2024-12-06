@@ -3,6 +3,39 @@ import nltk
 nltk.download('wordnet')
 from nltk.translate.meteor_score import meteor_score
 from rouge_score import rouge_scorer
+from os import path
+
+def read_jayson(path):
+    """Reads a JSON file containing image descriptions, predictions, and labels.
+
+    Args:
+    path (str): The path to the JSON file.
+
+    Returns:
+    tuple: A tuple containing three lists:
+        - predictions: A list of predicted descriptions.
+        - label: A list of ground truth descriptions.
+        - image: A list of image filenames.
+    """
+
+    # Read the JSON file into a Pandas DataFrame
+    df = pd.read_json("descriptions.json")
+
+    # Extract the columns as lists
+    predictions = df[0].tolist()
+    label = df[1].tolist()
+    image = df[2].tolist()
+
+    # Assert that all lists have the same length
+    assert len(predictions) == len(image) == len(text)
+
+    # Iterate over the lists, cleaning up the predictions and labels
+    i=0
+    while i < len(predictions):
+        label[i] = label[i][14:]
+        predictions[i] = predictions[i][58:-1]
+        i +=1
+    return predictions, label, image
 
 def compute_metrics(predicted, label):
     """
